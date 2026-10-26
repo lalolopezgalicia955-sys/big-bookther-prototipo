@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BIG BOOKTHER – Prototipo no funcional</title>
 <style>
-:root{--blue:#1f4fa0;--dark:#153a78;--paper:#f3f6fb;--ln:#d5dcea;--ink:#1b2433;--mut:#5b6679}
+:root{--blue:#1f4fa0;--dark:#153a78;--paper:#f3f6fb;--ln:#d5dcea;--ink:#1b2433;--mut:#5b6679;--card:#fff;--bd:#b5bfd3;--lk:#1f4fa0;--tagbg:#e4ebf7;--tagfg:#153a78}
+:root[data-theme="dark"]{color-scheme:dark;--blue:#2f63bd;--dark:#244f98;--paper:#0e1522;--ln:#2b3750;--ink:#e6ebf5;--mut:#9aa7bd;--card:#172033;--bd:#3a4963;--lk:#8db4ff;--tagbg:#25344f;--tagfg:#cfe0ff}
+:root[data-theme="dark"] .corner{filter:invert(1)}
 *{box-sizing:border-box;font-family:system-ui,"Segoe UI",Arial,sans-serif}
 body{margin:0;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.5}
 h1,h2,h3{margin:0}
-:focus-visible{outline:3px solid var(--dark);outline-offset:2px}
+:focus-visible{outline:3px solid var(--lk);outline-offset:2px}
 .hidden{display:none!important}
 #login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
 .hero{background:#fff;color:#000;padding:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
@@ -19,7 +21,7 @@ h1,h2,h3{margin:0}
 .box{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--blue);color:#fff}
 .box label{color:#fff}
 .box .btn{background:#fff;color:var(--blue)}
-.box .btn:hover{background:var(--paper)}
+.box .btn:hover{background:#e4ebf7}
 .box form{width:100%;max-width:340px}
 .box h2{font-size:24px;margin-bottom:16px}
 @media(max-width:760px){#login{grid-template-columns:1fr}.hero{padding:28px}.hero h1{font-size:36px}}
@@ -32,38 +34,38 @@ aside button.on{font-weight:700}
 aside .sp{flex:1}
 .main{min-width:0;display:flex;flex-direction:column}
 .corner{position:fixed;right:24px;bottom:20px;width:120px;height:auto;opacity:.4;z-index:5;cursor:pointer}
-header{background:#fff;border-bottom:1px solid var(--ln);padding:12px 24px;display:flex;justify-content:space-between;color:var(--mut)}
+header{background:var(--card);border-bottom:1px solid var(--ln);padding:12px 24px;display:flex;justify-content:space-between;color:var(--mut)}
 header b{color:var(--ink)}
 .view{padding:24px;max-width:1040px;width:100%;flex:1}
 .view>h2{font-size:24px}
 .sub{color:var(--mut);margin:2px 0 4px}
 .db{font-size:12px;color:var(--mut);margin:0 0 18px}
-.card{background:#fff;border:1px solid var(--ln);border-radius:8px;padding:16px;margin-bottom:16px;overflow-x:auto}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:8px;padding:16px;margin-bottom:16px;overflow-x:auto}
 .card h3{font-size:17px;margin-bottom:10px}
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
 .f{display:flex;flex-direction:column;gap:3px;flex:1;min-width:150px}
 label{font-size:13px;color:var(--mut)}
-input,select,textarea{border:1px solid #b5bfd3;border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);font-size:15px}
+input,select,textarea{border:1px solid var(--bd);border-radius:6px;padding:8px 10px;background:var(--card);color:var(--ink);font-size:15px}
 .btn{background:var(--blue);color:#fff;border:0;border-radius:6px;padding:9px 16px;cursor:pointer;font-weight:600;font-size:15px}
 .btn:hover{background:var(--dark)}
-.btn.alt{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn.alt{background:var(--card);color:var(--lk);border:1.5px solid var(--lk)}
 .btn.alt:hover{background:var(--paper)}
 .btn.sm{padding:4px 10px;font-size:13px}
 table{border-collapse:collapse;width:100%}
 th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--ln);white-space:nowrap}
 th{font-size:13px;color:var(--mut);font-weight:600}
-.tag{display:inline-block;padding:1px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#e4ebf7;color:var(--dark)}
+.tag{display:inline-block;padding:1px 10px;border-radius:99px;font-size:12px;font-weight:600;background:var(--tagbg);color:var(--tagfg)}
 .tag.on{background:var(--blue);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .mod{text-align:left;background:var(--blue);color:#fff;border:0;border-radius:8px;padding:16px;cursor:pointer}
 .mod:hover{background:var(--dark)}
 .mod b{display:block;font-size:17px;color:#fff}.mod span{font-size:13px;color:#fff}
-.pc{border:2px solid var(--ln);border-radius:8px;padding:12px;text-align:center;background:#fff}
+.pc{border:2px solid var(--ln);border-radius:8px;padding:12px;text-align:center;background:var(--card)}
 .pc.l{background:var(--blue);border-color:var(--blue);color:#fff}
 .pc b{display:block}
-.ticket{background:#fff;border:1px dashed #8a96ad;padding:14px;max-width:380px;white-space:pre-wrap;font-size:13px;font-family:"Courier New",monospace}
+.ticket{background:var(--card);border:1px dashed #8a96ad;padding:14px;max-width:380px;white-space:pre-wrap;font-size:13px;font-family:"Courier New",monospace}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.tabs button{background:#fff;color:var(--blue);border:1px solid var(--blue);border-radius:6px;padding:7px 14px;cursor:pointer}
+.tabs button{background:var(--card);color:var(--lk);border:1px solid var(--lk);border-radius:6px;padding:7px 14px;cursor:pointer}
 .tabs button.on{background:var(--blue);color:#fff}
 .tot{margin-left:auto;width:260px}.tot div{display:flex;justify-content:space-between;padding:3px 0}.tot .g{border-top:2px solid var(--ink);font-weight:700;font-size:18px}
 @media(max-width:760px){#app{grid-template-columns:1fr}aside{flex-direction:row;flex-wrap:wrap}aside .brand,aside .sp{display:none}aside button{width:auto}}
@@ -111,7 +113,8 @@ const MOD=[
 ['P07','Equipos de cómputo','Estatus y uso de equipos',['Bibliotecario','Administrador']],
 ['P08','Punto de venta','Ventas con ticket e IVA',['Cajero']],
 ['P09','Sincronizar padrón','Lista de alumnos de la Escuela',['Administrador']],
-['P10','Administración','Usuarios, secciones, respaldos y reportes',['Administrador']]];
+['P10','Administración','Usuarios, secciones, respaldos y reportes',['Administrador']],
+['P11','Configuración','Tema claro u oscuro',['Estudiante','Bibliotecario','Cajero','Administrador']]];
 let role='',tab='Usuarios';
 const h=(t,s,db)=>`<h2>${t}</h2><p class="sub">${s}</p><p class="db">Tablas: ${db}</p>`;
 const fld=(l,id,v='',t='text')=>`<div class="f"><label for="${id}">${l}</label><input id="${id}" type="${t}" value="${v}"></div>`;
@@ -119,6 +122,32 @@ const sel=(l,id,o)=>`<div class="f"><label for="${id}">${l}</label><select id="$
 const tag=(t,on)=>`<span class="tag ${on?'on':''}">${t}</span>`;
 const tbl=(c,r)=>`<table><thead><tr>${c.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.map(x=>`<tr>${x.map(y=>`<td>${y}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 const SEC=['Novela','Computación','Matemáticas','Ciencias'];
+
+/* ===== Catálogo funcional: búsqueda y filtros ===== */
+const LIBROS=[
+ {t:'Mil novecientos ochenta y cuatro',a:'George Orwell',s:'Novela',p:250,n:1},
+ {t:'Cien años de soledad',a:'Gabriel García Márquez',s:'Novela',p:320,n:2},
+ {t:'Estructuras de datos en Java',a:'Weiss',s:'Computación',p:610,n:0},
+ {t:'Cálculo de una variable',a:'Stewart',s:'Matemáticas',p:480,n:3},
+ {t:'Física universitaria',a:'Sears',s:'Ciencias',p:480,n:1}
+];
+let bq='',bsec='Todas',bdis='Todos';
+const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const catRows=()=>{
+ const q=nrm(bq.trim());
+ const r=LIBROS.filter(l=>(bsec=='Todas'||l.s==bsec)&&(bdis=='Todos'||l.n>0)&&(!q||nrm(l.t+' '+l.a).includes(q)));
+ return `<p class="db">${r.length} resultado(s)</p>`+(r.length
+  ?tbl(['Título','Autor','Sección','Precio','Ejemplares disponibles',''],r.map(l=>[l.t,l.a,l.s,'$'+l.p.toFixed(2),tag(l.n,l.n>0),role=='Bibliotecario'&&l.n>0?'<button class="btn alt sm" data-id="P05">Solicitar préstamo</button>':'']))
+  :'<p class="sub">No se encontraron libros con esos criterios.</p>')};
+
+/* ===== Configuración: tema claro / oscuro ===== */
+const TEMAS=['Claro','Oscuro','Automático'];
+let tema='Claro';
+try{tema=localStorage.getItem('bb_tema')||'Claro'}catch(e){}
+const mq=matchMedia('(prefers-color-scheme: dark)');
+const aplicarTema=()=>{const osc=tema=='Oscuro'||(tema=='Automático'&&mq.matches);document.documentElement.dataset.theme=osc?'dark':'light'};
+mq.addEventListener('change',aplicarTema);
+aplicarTema();
 
 function go(id){
  $('#wt').textContent=id;
@@ -128,14 +157,9 @@ function go(id){
 const V={
 P02:()=>h('Menú principal','Módulos disponibles para el rol '+role+'.','Usuario, Estudiante')+`<div class="grid">${MOD.filter(m=>m[0]!='P02'&&m[3].includes(role)).map(m=>`<button class="mod" data-id="${m[0]}"><b>${m[1]}</b><span>${m[2]}</span></button>`).join('')}</div>`,
 
-P03:()=>h('Catálogo','Busca por título, autor o sección.','Libro, Seccion, Ejemplar')+`
-<div class="card"><div class="row">${fld('Buscar','q')}${sel('Sección','fs',['Todas',...SEC])}<button class="btn">Buscar</button><button class="btn alt">Limpiar filtros</button></div></div>
-<div class="card">${tbl(['Título','Autor','Sección','Precio','Ejemplares disponibles',''],[
-['Mil novecientos ochenta y cuatro','George Orwell','Novela','$250.00',tag('1',1),role=='Bibliotecario'?'<button class="btn alt sm" data-id="P05">Solicitar préstamo</button>':''],
-['Cien años de soledad','Gabriel García Márquez','Novela','$320.00',tag('2',1),''],
-['Estructuras de datos en Java','Weiss','Computación','$610.00',tag('0'),''],
-['Cálculo de una variable','Stewart','Matemáticas','$480.00',tag('3',1),''],
-['Física universitaria','Sears','Ciencias','$480.00',tag('1',1),''] ])}</div>`,
+P03:()=>{bq='';bsec='Todas';bdis='Todos';return h('Catálogo','Busca por título, autor o sección.','Libro, Seccion, Ejemplar')+`
+<div class="card"><div class="row">${fld('Buscar','q')}${sel('Sección','fs',['Todas',...SEC])}${sel('Disponibilidad','fd',['Todos','Solo disponibles'])}<button class="btn alt" data-act="limpiar">Limpiar filtros</button></div></div>
+<div class="card" id="res">${catRows()}</div>`},
 
 P04:()=>h('Inventario','Alta de libros y ejemplares, y su clasificación.','Libro, Seccion, Ejemplar')+`
 <div class="card"><h3>Alta de libro</h3><div class="row">${fld('Título','a1')}${fld('Autor','a2')}${sel('Sección','a3',SEC)}${fld('Precio','a4','','number')}<button class="btn">Guardar libro</button></div></div>
@@ -207,6 +231,10 @@ P09:()=>h('Sincronizar padrón','Lista oficial de alumnos que entrega la Escuela
 <div class="card"><h3>Padrón actual</h3>${tbl(['Matrícula','Nombre','Correo','Activo'],[
 ['20230145','Ana López Ruiz','ana.lopez@itsx.edu.mx',tag('Sí',1)],['20230188','Carlos Mora Díaz','carlos.mora@itsx.edu.mx',tag('Sí',1)],['20210077','Sofía Ruiz Peña','sofia.ruiz@itsx.edu.mx',tag('No')] ])}</div>`,
 
+P11:()=>h('Configuración','Preferencias de la interfaz.','Ninguna')+`
+<div class="card"><h3>Apariencia</h3><div class="row"><div class="f"><label for="tm">Tema</label><select id="tm">${TEMAS.map(x=>`<option${x==tema?' selected':''}>${x}</option>`).join('')}</select></div></div>
+<p class="sub">Automático sigue el tema de tu dispositivo. La elección se guarda en este navegador.</p></div>`,
+
 P10:()=>h('Administración','Usuarios, secciones, respaldos y reportes generales.','Usuario, Seccion')+`<div class="tabs">${['Usuarios','Secciones','Respaldos','Reportes'].map(t=>`<button class="${tab==t?'on':''}" data-tab="${t}">${t}</button>`).join('')}</div><div class="card">${T[tab]()}</div>`
 };
 const T={
@@ -221,11 +249,17 @@ $('#corner').src=L1;
 new Image().src=L2;
 [$('.hero .logo'),$('#corner')].forEach(i=>{i.onmouseenter=()=>i.src=L2;i.onmouseleave=()=>i.src=L1});
 $('#corner').onclick=()=>go('P02');
-/* Solo navegación entre pantallas */
+/* Navegación entre pantallas */
 $('#lf').onsubmit=e=>{e.preventDefault();role=$('#r').value;$('#wr').textContent=role;$('#login').classList.add('hidden');$('#app').classList.remove('hidden');go('P02')};
 $('#out').onclick=()=>{$('#app').classList.add('hidden');$('#login').classList.remove('hidden')};
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
- if(b.dataset.id)go(b.dataset.id);else if(b.dataset.tab){tab=b.dataset.tab;go('P10')}});
+ if(b.dataset.id)go(b.dataset.id);
+ else if(b.dataset.tab){tab=b.dataset.tab;go('P10')}
+ else if(b.dataset.act=='limpiar')go('P03')});
+/* Catálogo: filtros en vivo */
+document.addEventListener('input',e=>{if(e.target.id=='q'){bq=e.target.value;$('#res').innerHTML=catRows()}});
+document.addEventListener('change',e=>{if(e.target.id=='tm'){tema=e.target.value;try{localStorage.setItem('bb_tema',tema)}catch(x){}aplicarTema()}
+if(e.target.id=='fs'||e.target.id=='fd'){bsec=$('#fs').value;bdis=$('#fd').value;$('#res').innerHTML=catRows()}});
 </script>
 </body>
 </html>
