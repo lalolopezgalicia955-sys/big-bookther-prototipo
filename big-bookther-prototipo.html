@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BIG BOOKTHER – Prototipo no funcional</title>
+<style>
+:root{--blue:#1f4fa0;--dark:#153a78;--paper:#f3f6fb;--ln:#d5dcea;--ink:#1b2433;--mut:#5b6679}
+*{box-sizing:border-box;font-family:system-ui,"Segoe UI",Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.5}
+h1,h2,h3{margin:0}
+:focus-visible{outline:3px solid var(--dark);outline-offset:2px}
+.hidden{display:none!important}
+#login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:#fff;color:#000;padding:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.hero h1{font-size:48px;line-height:1.05;margin-bottom:12px}
+.hero p{margin:0 auto 8px;max-width:36ch;color:#000}
+.hero .logo{width:min(100%,460px);height:auto;margin:0 auto 32px}
+.box{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--blue);color:#fff}
+.box label{color:#fff}
+.box .btn{background:#fff;color:var(--blue)}
+.box .btn:hover{background:var(--paper)}
+.box form{width:100%;max-width:340px}
+.box h2{font-size:24px;margin-bottom:16px}
+@media(max-width:760px){#login{grid-template-columns:1fr}.hero{padding:28px}.hero h1{font-size:36px}}
+#app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{background:var(--blue);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+aside .brand{color:#fff;font-weight:700;font-size:18px;padding:0 10px 14px}
+aside button{background:none;border:0;color:#fff;text-align:left;padding:9px 12px;border-radius:6px;cursor:pointer;width:100%}
+aside button:hover,aside button.on{background:var(--dark)}
+aside button.on{font-weight:700}
+aside .sp{flex:1}
+.main{min-width:0;display:flex;flex-direction:column}
+.corner{position:fixed;right:24px;bottom:20px;width:120px;height:auto;opacity:.4;z-index:5;cursor:pointer}
+header{background:#fff;border-bottom:1px solid var(--ln);padding:12px 24px;display:flex;justify-content:space-between;color:var(--mut)}
+header b{color:var(--ink)}
+.view{padding:24px;max-width:1040px;width:100%;flex:1}
+.view>h2{font-size:24px}
+.sub{color:var(--mut);margin:2px 0 4px}
+.db{font-size:12px;color:var(--mut);margin:0 0 18px}
+.card{background:#fff;border:1px solid var(--ln);border-radius:8px;padding:16px;margin-bottom:16px;overflow-x:auto}
+.card h3{font-size:17px;margin-bottom:10px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
+.f{display:flex;flex-direction:column;gap:3px;flex:1;min-width:150px}
+label{font-size:13px;color:var(--mut)}
+input,select,textarea{border:1px solid #b5bfd3;border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);font-size:15px}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:6px;padding:9px 16px;cursor:pointer;font-weight:600;font-size:15px}
+.btn:hover{background:var(--dark)}
+.btn.alt{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn.alt:hover{background:var(--paper)}
+.btn.sm{padding:4px 10px;font-size:13px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--ln);white-space:nowrap}
+th{font-size:13px;color:var(--mut);font-weight:600}
+.tag{display:inline-block;padding:1px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#e4ebf7;color:var(--dark)}
+.tag.on{background:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.mod{text-align:left;background:var(--blue);color:#fff;border:0;border-radius:8px;padding:16px;cursor:pointer}
+.mod:hover{background:var(--dark)}
+.mod b{display:block;font-size:17px;color:#fff}.mod span{font-size:13px;color:#fff}
+.pc{border:2px solid var(--ln);border-radius:8px;padding:12px;text-align:center;background:#fff}
+.pc.l{background:var(--blue);border-color:var(--blue);color:#fff}
+.pc b{display:block}
+.ticket{background:#fff;border:1px dashed #8a96ad;padding:14px;max-width:380px;white-space:pre-wrap;font-size:13px;font-family:"Courier New",monospace}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tabs button{background:#fff;color:var(--blue);border:1px solid var(--blue);border-radius:6px;padding:7px 14px;cursor:pointer}
+.tabs button.on{background:var(--blue);color:#fff}
+.tot{margin-left:auto;width:260px}.tot div{display:flex;justify-content:space-between;padding:3px 0}.tot .g{border-top:2px solid var(--ink);font-weight:700;font-size:18px}
+@media(max-width:760px){#app{grid-template-columns:1fr}aside{flex-direction:row;flex-wrap:wrap}aside .brand,aside .sp{display:none}aside button{width:auto}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="hero">
+    <img class="logo" alt="Logotipo de BIG BOOKTHER: un ojo sobre un libro abierto" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMjcwIDcyNyAxNTA4IDU5MyIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCI+IDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLDIwNDcuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPiA8cGF0aCBkPSJNMTAwNzUgMTI3OTMgYy01NTggLTI4IC0xMTE2IC0xNDYgLTE2NjggLTM1NCAtNTY0IC0yMTMgLTEwMjcgLTQ4OSAtMTExMiAtNjY0IGwtMjcgLTUzIDIxIC00NyBjOTkgLTIyNCA4MzQgLTYwOCAxNTcwIC04MjAgODc3IC0yNTIgMTU3MiAtMjc5IDI0MTYgLTk0IDc0MiAxNjMgMTUzNCA1MTAgMTgzMSA4MDQgMTAyIDEwMCAxMTggMTM5IDg0IDIwNiAtNTkgMTE1IC0yOTUgMjgyIC02NDUgNDU0IC0yNTkgMTI3IC00MzMgMTk5IC03MTAgMjkxIC02MTAgMjAyIC0xMjUwIDMwMyAtMTc2MCAyNzd6IG01MjEgLTM3OCBjNTg3IC01NyAxMTU5IC0yMjAgMTcyNCAtNDkyIDE4NCAtODggMzkwIC0yMDAgMzkwIC0yMTEgMCAtMTIgLTE3OCAtMTEwIC0zNjUgLTIwMiAtODI0IC00MDMgLTE3MjcgLTU3MiAtMjU2MCAtNDgwIC01NjYgNjMgLTExODkgMjU0IC0xNzMwIDUzMCAtMTc0IDg5IC0yOTkgMTU5IC0yOTMgMTY1IDEzIDEyIDIwOCAxMjAgMzIzIDE3NyA1MTEgMjU3IDEwOTMgNDM0IDE2MzUgNDk4IDI3OSAzMyA2MjYgMzkgODc2IDE1eiIvPiA8cGF0aCBkPSJNMTAxMDUgMTIzNTAgYy0xNjMgLTMzIC0zMjcgLTE1MSAtNDE0IC0yOTggLTY4IC0xMTQgLTkyIC0yMDAgLTkyIC0zMzMgMCAtMTc3IDY0IC0zMzMgMTg4IC00NTYgMzU2IC0zNTIgOTUyIC0xODcgMTA4MCAzMDAgMjEgODAgMjEgMjMzIDAgMzE0IC01OSAyMjYgLTI0MyA0MDkgLTQ3MiA0NjggLTYzIDE2IC0yMjAgMTkgLTI5MCA1eiBtMjYyIC0zODMgYzE2OCAtODYgMjA1IC0zMTQgNzEgLTQ0NCAtNjggLTY1IC0xMDAgLTc4IC0xOTggLTc4IC0xMDIgMCAtMTQ2IDE5IC0yMDkgOTEgLTEzNiAxNTUgLTY1IDM4OCAxMzkgNDU1IDQ2IDE1IDE0MiAzIDE5NyAtMjR6Ii8+IDxwYXRoIGQ9Ik0zOTAwIDExMjQwIGMtMzU3IC0xNyAtNjUzIC00MSAtNjkzIC01NyAtMTExIC00NSAtMTM5IC0yMTEgLTQ5IC0yOTYgMzAgLTI5IDIxIC0yNSA3MzIgLTI4MiAyODMgLTEwMiA1MzggLTE5NSA1NjUgLTIwNSAyOCAtMTEgMjU1IC05MyA1MDUgLTE4NCA3MzMgLTI2NSAxNTI0IC01NTEgMzU1MCAtMTI4NiAyNTYgLTkzIDY3MiAtMjQ0IDkyNSAtMzM1IDI1MyAtOTIgNDk4IC0xODEgNTQ1IC0xOTkgODQgLTMwIDg4IC0zMSAyNjUgLTMxIGwxODAgMCAxNTUgNTggYzg1IDMyIDE3OCA2NiAyMDUgNzcgMjggMTAgMTgxIDY2IDM0MCAxMjQgMTYwIDU3IDQ3MCAxNjkgNjkwIDI0OSA0MTEgMTUwIDEyNjQgNDU5IDE5MDAgNjg5IDE5OCA3MiA0MDMgMTQ2IDQ1NSAxNjUgNTIgMTkgMTQ5IDU0IDIxNSA3OCA2NiAyNCAxOTQgNzAgMjg1IDEwMyAxOTUgNzEgNTg4IDIxNCAxOTAwIDY4OCAzMTEgMTEzIDU5OCAyMTcgNjM5IDIzMSA4NSAzMSAxMjQgNjAgMTUxIDExNCA0OCA5NCAxIDIwOSAtMTAzIDI0OCAtNjkgMjcgLTgxMSA2MSAtMTMxNSA2MSAtMTIwNiAwIC0yMTgzIC0xMzUgLTMwNzYgLTQyNyAtMTE5NCAtMzg5IC0yMTE1IC0xMDkyIC0yNTQzIC0xOTQyIC00MSAtODAgLTc3IC0xNDYgLTgyIC0xNDYgLTUgMCAtNDQgNzAgLTg3IDE1NSAtOTcgMTg5IC0xOTggMzQ1IC0zMzEgNTEwIC01MTMgNjM4IC0xMzA2IDExNDAgLTIyODggMTQ0OCAtNjY1IDIwOSAtMTI5MiAzMTggLTIxOTUgMzgzIC0xOTYgMTQgLTExOTUgMjAgLTE0NDAgOXogbTEzNzQgLTM3NSBjMTM1MiAtODQgMjQ0MCAtMzc3IDMyODIgLTg4MyAzNjMgLTIxOCA3MTQgLTUxMSA5NTAgLTc5MiA4MyAtOTggMjI3IC0zMDEgMjE5IC0zMDggLTMgLTMgLTM1IDcgLTcyIDIxIC0zOCAxNCAtMjUwIDkyIC00NzMgMTcyIC0yMjMgODEgLTYxMCAyMjEgLTg2MCAzMTIgLTI1MCA5MSAtNzA5IDI1NyAtMTAyMCAzNjkgLTMxMSAxMTMgLTc3NCAyODEgLTEwMzAgMzc0IC0yNTYgOTMgLTc0NiAyNzAgLTEwOTAgMzk1IC0xMDc4IDM5MCAtOTcxIDM0OSAtOTI1IDM1NyA2MyAxMSA3NTkgLTEgMTAxOSAtMTd6IG0xMDk0NSAxOCBsNTMgLTYgLTMyMyAtMTE3IGMtMTc4IC02NSAtNjEwIC0yMjEgLTk1OSAtMzQ4IC02NDYgLTIzNCAtOTM2IC0zMzkgLTE4NDUgLTY2OCAtMjgwIC0xMDIgLTU1NyAtMjAyIC02MTUgLTIyNCAtMTAzIC0zOCAtMzQ1IC0xMjUgLTEwNTUgLTM4MiAtMTk4IC03MiAtNDAwIC0xNDUgLTQ1MCAtMTYzIC00OSAtMTggLTEzMCAtNDcgLTE3OCAtNjUgLTQ4IC0xOCAtOTAgLTMwIC05MiAtMjggLTcgNyAxMjIgMTg2IDIxMyAyOTYgMTEyIDEzNSAzNzIgMzg2IDUxNyA1MDAgOTA1IDcwNiAyMTk5IDExMTAgMzgyMCAxMTkyIDM0MiAxNyA4MjIgMjQgOTE0IDEzeiIvPiA8cGF0aCBkPSJNNDM1NCA4MDE1IGMtNzAgLTM1IC05OSAtODEgLTk5IC0xNjAgMCAtNzUgMzIgLTEzMSA5MiAtMTYxIDM3IC0xOSAxNTYgLTE5IDU4NzcgLTIyIDM4OTIgLTEgNTg1MSAxIDU4NzYgOCAxNzIgNDYgMTczIDI4OSAxIDM0OCAtMjYgOSAtMTQzMiAxMiAtNTg2NiAxMiBsLTU4MzEgMCAtNTAgLTI1eiIvPiA8L2c+IDwvc3ZnPiA=">
+    <h1>BIG BOOKTHER</h1>
+    <p>Sistema integral de gestión de biblioteca y librería.</p>
+    <p>Instituto Tecnológico Superior de Xalapa.</p>
+  </div>
+  <div class="box">
+    <form id="lf">
+      <h2>Iniciar sesión</h2>
+      <div class="f" style="margin-bottom:10px"><label for="u">Correo o matrícula</label><input id="u"></div>
+      <div class="f" style="margin-bottom:10px"><label for="p">Contraseña</label><input id="p" type="password"></div>
+      <div class="f" style="margin-bottom:16px"><label for="r">Entrar como</label>
+        <select id="r"><option>Estudiante</option><option>Bibliotecario</option><option>Cajero</option><option>Administrador</option></select></div>
+      <button class="btn" style="width:100%">Ingresar</button>
+      <p style="text-align:center;color:#fff">Olvidé mi contraseña</p>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <aside><div class="brand">BIG BOOKTHER</div><div id="nav"></div><div class="sp"></div><button id="out">Salir</button></aside>
+  <div class="main">
+    <header><span>Sesión: <b id="wr"></b></span><span id="wt"></span></header>
+    <section class="view" id="view"></section>
+    <img class="corner" id="corner" alt="Logotipo de BIG BOOKTHER">
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const MOD=[
+['P02','Menú principal','Accesos de tu rol',['Estudiante','Bibliotecario','Cajero','Administrador']],
+['P03','Catálogo','Buscar libros y ver disponibilidad',['Estudiante','Bibliotecario']],
+['P04','Inventario','Libros y ejemplares',['Bibliotecario']],
+['P05','Registrar préstamo','Folio de préstamo',['Bibliotecario']],
+['P06','Devoluciones y sanciones','Cerrar préstamos y mora',['Bibliotecario']],
+['P07','Equipos de cómputo','Estatus y uso de equipos',['Bibliotecario','Administrador']],
+['P08','Punto de venta','Ventas con ticket e IVA',['Cajero']],
+['P09','Sincronizar padrón','Lista de alumnos de la Escuela',['Administrador']],
+['P10','Administración','Usuarios, secciones, respaldos y reportes',['Administrador']]];
+let role='',tab='Usuarios';
+const h=(t,s,db)=>`<h2>${t}</h2><p class="sub">${s}</p><p class="db">Tablas: ${db}</p>`;
+const fld=(l,id,v='',t='text')=>`<div class="f"><label for="${id}">${l}</label><input id="${id}" type="${t}" value="${v}"></div>`;
+const sel=(l,id,o)=>`<div class="f"><label for="${id}">${l}</label><select id="${id}">${o.map(x=>`<option>${x}</option>`).join('')}</select></div>`;
+const tag=(t,on)=>`<span class="tag ${on?'on':''}">${t}</span>`;
+const tbl=(c,r)=>`<table><thead><tr>${c.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.map(x=>`<tr>${x.map(y=>`<td>${y}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+const SEC=['Novela','Computación','Matemáticas','Ciencias'];
+
+function go(id){
+ $('#wt').textContent=id;
+ $('#nav').innerHTML=MOD.filter(m=>m[3].includes(role)).map(m=>`<button class="${m[0]==id?'on':''}" data-id="${m[0]}">${m[1]}</button>`).join('');
+ $('#view').innerHTML=V[id]();scrollTo(0,0)}
+
+const V={
+P02:()=>h('Menú principal','Módulos disponibles para el rol '+role+'.','Usuario, Estudiante')+`<div class="grid">${MOD.filter(m=>m[0]!='P02'&&m[3].includes(role)).map(m=>`<button class="mod" data-id="${m[0]}"><b>${m[1]}</b><span>${m[2]}</span></button>`).join('')}</div>`,
+
+P03:()=>h('Catálogo','Busca por título, autor o sección.','Libro, Seccion, Ejemplar')+`
+<div class="card"><div class="row">${fld('Buscar','q')}${sel('Sección','fs',['Todas',...SEC])}<button class="btn">Buscar</button><button class="btn alt">Limpiar filtros</button></div></div>
+<div class="card">${tbl(['Título','Autor','Sección','Precio','Ejemplares disponibles',''],[
+['Mil novecientos ochenta y cuatro','George Orwell','Novela','$250.00',tag('1',1),role=='Bibliotecario'?'<button class="btn alt sm" data-id="P05">Solicitar préstamo</button>':''],
+['Cien años de soledad','Gabriel García Márquez','Novela','$320.00',tag('2',1),''],
+['Estructuras de datos en Java','Weiss','Computación','$610.00',tag('0'),''],
+['Cálculo de una variable','Stewart','Matemáticas','$480.00',tag('3',1),''],
+['Física universitaria','Sears','Ciencias','$480.00',tag('1',1),''] ])}</div>`,
+
+P04:()=>h('Inventario','Alta de libros y ejemplares, y su clasificación.','Libro, Seccion, Ejemplar')+`
+<div class="card"><h3>Alta de libro</h3><div class="row">${fld('Título','a1')}${fld('Autor','a2')}${sel('Sección','a3',SEC)}${fld('Precio','a4','','number')}<button class="btn">Guardar libro</button></div></div>
+<div class="card"><h3>Alta de ejemplar</h3><div class="row">${fld('Código del ejemplar','b1','EJ-0001')}${sel('Libro','b2',['Mil novecientos ochenta y cuatro','Cien años de soledad','Cálculo de una variable'])}${sel('Tipo de stock','b3',['Consulta','Venta'])}${sel('Estatus','b4',['Disponible','Prestado','Vendido','En revisión','Baja'])}<button class="btn">Guardar ejemplar</button></div></div>
+<div class="card"><h3>Ejemplares</h3>${tbl(['Código','Libro','Tipo de stock','Estatus','Acciones'],[
+['EJ-0001','Mil novecientos ochenta y cuatro','Consulta',tag('Disponible',1),'<button class="btn alt sm">Reclasificar</button> <button class="btn alt sm">Dar de baja</button>'],
+['EJ-0007','Estructuras de datos en Java','Consulta',tag('Prestado'),'<button class="btn alt sm">Reclasificar</button> <button class="btn alt sm">Dar de baja</button>'],
+['EJ-0031','Cálculo de una variable','Venta',tag('Disponible',1),'<button class="btn alt sm">Reclasificar</button> <button class="btn alt sm">Dar de baja</button>'],
+['EJ-0044','Física universitaria','Venta',tag('Vendido'),'<button class="btn alt sm">Reclasificar</button> <button class="btn alt sm">Dar de baja</button>'] ])}</div>`,
+
+P05:()=>h('Registrar préstamo','Máximo 2 libros por estudiante, 3 días de préstamo.','Prestamo, Estudiante, Ejemplar, Usuario, Sancion')+`
+<div class="card"><div class="row">${fld('Matrícula','m','20230145')}${fld('Código del ejemplar','c','EJ-0001')}<button class="btn">Verificar</button></div></div>
+<div class="card"><h3>Validación</h3>${tbl(['Dato','Valor'],[
+['Estudiante','Ana López Ruiz · ana.lopez@itsx.edu.mx '+tag('Activo',1)],
+['Sanciones pendientes','Ninguna'],['Préstamos activos','1 de 2'],
+['Ejemplar','EJ-0001 · Mil novecientos ochenta y cuatro '+tag('Disponible',1)],
+['Fecha de préstamo','23/10/2026 12:30'],['Fecha límite','26/10/2026 12:30'],['Atiende','Juan Luis (Usuario)'] ])}
+<p><button class="btn">Confirmar préstamo</button></p></div>
+<div class="card"><h3>Folio de préstamo</h3><div class="ticket">BIG BOOKTHER
+FOLIO: 124
+Matrícula: 20230145
+Ejemplar: EJ-0001
+Prestado: 23/10/2026 12:30
+Devolver antes de: 26/10/2026 12:30</div>
+<p><button class="btn alt">Imprimir folio</button> <button class="btn alt">Enviar por correo</button></p></div>`,
+
+P06:()=>h('Devoluciones y sanciones','Registra la entrega y consulta la mora.','Prestamo, Ejemplar, Sancion, Estudiante')+`
+<div class="card"><div class="row">${fld('Folio del préstamo','fo','118')}<button class="btn">Buscar</button></div></div>
+<div class="card"><h3>Préstamo</h3>${tbl(['Dato','Valor'],[
+['Folio','118'],['Estudiante','20230145 · Ana López Ruiz'],['Ejemplar','EJ-0007 · Estructuras de datos en Java'],
+['Fecha de préstamo','16/10/2026 09:00'],['Fecha límite','19/10/2026 09:00'],['Fecha de devolución','23/10/2026 12:45'],
+['Estatus',tag('Vencido')],['Días de retraso','4'] ])}
+<div class="row" style="margin-top:12px">${sel('Estado del ejemplar','eb',['Disponible','En revisión','Baja'])}<button class="btn">Registrar devolución</button></div></div>
+<div class="card"><h3>Sanción</h3><div class="row">${fld('Monto','sm','40.00','number')}<div class="f" style="flex:2"><label for="mo">Motivo</label><textarea id="mo" rows="2">Retraso de 4 días en la devolución del préstamo 118.</textarea></div>${sel('Estatus','se',['Pendiente','Pagada','Condonada'])}</div>
+<p><button class="btn">Guardar sanción</button> <button class="btn alt">Condonar / ajustar</button></p></div>`,
+
+P07:()=>h('Equipos de cómputo','Estatus de las computadoras de la sala.','Equipo, UsoEquipo, Estudiante')+`
+<p>${tag('Libre',1)} ${tag('En uso')} ${tag('Sin servicio')}</p>
+<div class="grid">${[['PC-01','l','Libre'],['PC-02','','En uso'],['PC-03','l','Libre'],['PC-04','','Sin servicio'],['PC-05','l','Libre'],['PC-06','l','Libre'],['PC-07','','En uso'],['PC-08','l','Libre']].map(p=>`<div class="pc ${p[1]}"><b>${p[0]}</b>${p[2]}</div>`).join('')}</div>
+<div class="card" style="margin-top:16px"><h3>Asignar equipo</h3><div class="row">${fld('Matrícula','pm','20230145')}${sel('Equipo','pe',['PC-01','PC-03','PC-05','PC-06','PC-08'])}<button class="btn">Asignar</button><button class="btn alt">Finalizar uso</button></div></div>
+<div class="card"><h3>Historial de uso</h3>${tbl(['Uso','Equipo','Matrícula','Hora de inicio','Hora de fin'],[
+['31','PC-02','20230145','23/10/2026 11:00','—'],['32','PC-07','20230188','23/10/2026 11:20','—'],['30','PC-01','20230102','23/10/2026 09:05','23/10/2026 10:05'] ])}</div>
+${role=='Administrador'?`<div class="card"><h3>Alta de equipo</h3><div class="row">${fld('Nombre','ne','PC-09')}${sel('Estatus','es',['Libre','En uso','Sin servicio'])}<button class="btn">Dar de alta</button></div></div>`:''}`,
+
+P08:()=>h('Punto de venta','Venta de ejemplares con IVA desglosado.','Venta, DetalleVenta, Ejemplar, Libro, Estudiante, Usuario')+`
+<div class="card"><div class="row">${fld('Código del ejemplar','cl','EJ-0031')}${fld('Cantidad','cn','1','number')}${fld('Matrícula del comprador (opcional)','vm')}<button class="btn">Agregar</button></div></div>
+<div class="card">${tbl(['Ejemplar','Libro','Cant.','Precio unitario','Importe',''],[
+['EJ-0031','Cálculo de una variable','1','$480.00','$480.00','<button class="btn alt sm">Quitar</button>'],
+['EJ-0052','Cien años de soledad','2','$320.00','$640.00','<button class="btn alt sm">Quitar</button>'] ])}
+<div class="tot"><div><span>Subtotal</span><span>$1,120.00</span></div><div><span>IVA 16%</span><span>$179.20</span></div><div class="g"><span>Total</span><span>$1,299.20</span></div></div>
+<div class="row" style="margin-top:12px">${fld('Monto recibido','mr','1500.00','number')}<button class="btn">Cobrar</button><button class="btn alt">Cancelar venta</button></div></div>
+<div class="card"><h3>Ticket de venta</h3><div class="ticket">BIG BOOKTHER - LIBRERÍA
+Folio ticket: 457
+Fecha: 23/10/2026 12:50
+Cajero: Laura Pérez
+------------------------------
+1 x Cálculo de una variable   $480.00
+2 x Cien años de soledad      $640.00
+------------------------------
+Subtotal                    $1120.00
+IVA 16%                      $179.20
+TOTAL                       $1299.20
+Recibido                    $1500.00
+Cambio                       $200.80</div><p><button class="btn alt">Reimprimir ticket</button></p></div>`,
+
+P09:()=>h('Sincronizar padrón','Lista oficial de alumnos que entrega la Escuela (nombre, matrícula y correo).','Estudiante')+`
+<div class="card"><div class="row"><div class="f"><label for="fi">Archivo de la Escuela</label><input id="fi" type="file"></div><button class="btn">Iniciar sincronización</button></div></div>
+<div class="card"><h3>Resumen de la sincronización</h3>${tbl(['Concepto','Cantidad'],[['Altas','42'],['Cambios','7'],['Bajas (activo = no)','15'],['Registros con inconsistencias','3 <button class="btn alt sm">Descargar reporte</button>']])}</div>
+<div class="card"><h3>Padrón actual</h3>${tbl(['Matrícula','Nombre','Correo','Activo'],[
+['20230145','Ana López Ruiz','ana.lopez@itsx.edu.mx',tag('Sí',1)],['20230188','Carlos Mora Díaz','carlos.mora@itsx.edu.mx',tag('Sí',1)],['20210077','Sofía Ruiz Peña','sofia.ruiz@itsx.edu.mx',tag('No')] ])}</div>`,
+
+P10:()=>h('Administración','Usuarios, secciones, respaldos y reportes generales.','Usuario, Seccion')+`<div class="tabs">${['Usuarios','Secciones','Respaldos','Reportes'].map(t=>`<button class="${tab==t?'on':''}" data-tab="${t}">${t}</button>`).join('')}</div><div class="card">${T[tab]()}</div>`
+};
+const T={
+Usuarios:()=>`<div class="row">${fld('Nombre','un')}${fld('Correo','uc','','email')}${fld('Contraseña','up','','password')}<button class="btn">Guardar usuario</button></div><br>${tbl(['ID','Nombre','Correo'],[['1','Juan Luis','juan.luis@itsx.edu.mx'],['2','Laura Pérez','laura.perez@itsx.edu.mx'],['3','María Torres','maria.torres@itsx.edu.mx']])}`,
+Secciones:()=>`<div class="row">${fld('Nombre de la sección','sn')}<button class="btn">Guardar sección</button></div><br>${tbl(['ID','Nombre',''],SEC.map((s,i)=>[i+1,s,'<button class="btn alt sm">Editar</button>']))}`,
+Respaldos:()=>`${tbl(['Archivo','Fecha','Estado',''],[['respaldo_2026-10-22.sql','22/10/2026 22:00','Íntegro','<button class="btn alt sm">Restaurar</button>'],['respaldo_2026-10-15.sql','15/10/2026 22:00','Íntegro','<button class="btn alt sm">Restaurar</button>']])}<p><button class="btn">Respaldar ahora</button></p>`,
+Reportes:()=>`<div class="row">${sel('Tipo de reporte','rt',['Préstamos','Sanciones','Ventas','Uso de equipos'])}${fld('Desde','rd','','date')}${fld('Hasta','rh','','date')}<button class="btn">Generar reporte</button><button class="btn alt">Exportar PDF / Excel</button></div>`
+};
+
+const L1=$('.hero .logo').src,L2='data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMjcwIDcyNyAxNTA4IDU5MyIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCI+IDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLDIwNDguMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPiA8cGF0aCBkPSJNNzM2NSAxMTg4MSBjLTc1IC00NSAtMTA3IC0xMjAgLTg1IC0xOTkgMjcgLTEwMiAzODcgLTM0OSA3NjQgLTUyNCA1MjMgLTI0MiAxMTE2IC00MTIgMTY5MSAtNDg0IDE3MyAtMjIgNjY4IC0zMCA4NjMgLTE1IDcxNSA1NyAxNTYwIDMxMyAyMTQyIDY1MSAyMDggMTIwIDQyNiAyODUgNDUzIDM0MyA1NiAxMTggLTI1IDI0NiAtMTU2IDI0NyAtNTYgMCAtOTEgLTE2IC0xNjcgLTc1IC0yNDggLTE5MiAtNjI2IC0zODMgLTEwNTAgLTUzMSAtMTA2NyAtMzcxIC0yMDA1IC0zNzkgLTMwNzIgLTI0IC00NDAgMTQ3IC04MzEgMzM1IC0xMDg0IDUyMiAtNDYgMzUgLTEwMyA3MyAtMTI2IDg2IC01MyAyOCAtMTMwIDMwIC0xNzMgM3oiLz4gPHBhdGggZD0iTTQxNTAgMTEyNTMgYy0xODMgLTUgLTU0NCAtMjUgLTcyMyAtMzkgLTIwNSAtMTYgLTI0MiAtMjYgLTI5MCAtODQgLTYyIC03MyAtNDUgLTE5MyAzNCAtMjUyIDI4IC0yMSAtMTAgLTcgMTE5NCAtNDQxIDQ5NSAtMTc5IDExMzIgLTQwOSAxNDE1IC01MTIgMjgzIC0xMDMgNjc1IC0yNDQgODcwIC0zMTUgMzI4IC0xMTggMTIzNiAtNDQ3IDE5MjUgLTY5NyA3NDcgLTI3MSAxNDU4IC01MjQgMTQ5NyAtNTMzIDY2IC0xNSAyOTUgLTEyIDM1OCA0IDUxIDEzIDc3MSAyNzEgMTg4NSA2NzQgNzcyIDI4MCAxOTkxIDcyMCAyNjIwIDk0NyA1MjUgMTkwIDE0MDMgNTA4IDIwNzUgNzUyIDEyOSA0NyAyNTIgOTQgMjcyIDEwNCA1NiAyOSA5MSA4MCA5NiAxNDQgNiA2OCAtMSA5NiAtMzQgMTM1IC00OSA1NyAtNjcgNjEgLTM1OSA4MSAtODk5IDYwIC0xNjczIDQ4IC0yNDM1IC0zNyAtMTM4MSAtMTU0IC0yNTIyIC01NzQgLTMzNDAgLTEyMzAgLTE2NCAtMTMyIC00MTUgLTM4MCAtNTM0IC01MjkgLTEyOSAtMTYxIC0yNjkgLTM3NyAtMzU3IC01NTEgbC03OCAtMTU0IC01MCAxMDQgYy0zNzAgNzg2IC0xMTU1IDE0NTQgLTIxOTAgMTg2NiAtMTA0MyA0MTUgLTIzNzMgNjA5IC0zODUxIDU2M3ogbTg1MCAtMzczIGMxMjk3IC01MiAyMzI4IC0yNzcgMzE4NSAtNjk1IDUyMiAtMjU1IDEwMjEgLTYzMyAxMzMwIC0xMDEwIDgwIC05OCAyMTUgLTI4MCAyMTUgLTI5MCAwIC0zIC0xNyAyIC0zNyAxMSAtMzUgMTQgLTgyNyAzMDMgLTE3NzggNjQ3IC0yMjAgODAgLTY2MSAyNDAgLTk4MCAzNTUgLTE0NjEgNTMwIC0yMjAwIDc5NyAtMjQ0MCA4ODIgLTE0MiA1MCAtMjY2IDk1IC0yNzUgMTAwIC0yMSAxMyA0NzEgMTIgNzgwIDB6IG0xMTI2NCAxIGMtNSAtNSAtMTY2IC02NSAtMzU5IC0xMzQgLTE5MiAtNjkgLTU4MiAtMjA5IC04NjUgLTMxMiAtMjgzIC0xMDMgLTY1MiAtMjM2IC04MjAgLTI5NiAtMTY4IC02MSAtNDA4IC0xNDggLTUzNSAtMTk0IC0xMjYgLTQ2IC0zMTEgLTExMyAtNDEwIC0xNDggLTUzOCAtMTk1IC0xOTI5IC02OTkgLTIyMzAgLTgwOSAtMzMyIC0xMjEgLTI5NyAtMTExIC0yODUgLTg3IDYgMTEgNTIgNzMgMTAxIDEzOSAyMzUgMzEzIDU0NyA2MDIgODk5IDgzNCAxODUgMTIzIDI2NCAxNjggNDc1IDI3NCA4NTYgNDI4IDE4MDMgNjUwIDMwODAgNzIyIDMzNyAxOSA5NjYgMjYgOTQ5IDExeiIvPiA8cGF0aCBkPSJNNDM3NyA4MDQwIGMtNzYgLTIzIC0xMjcgLTkzIC0xMjcgLTE3NCAwIC04NyA0OCAtMTUzIDEyOCAtMTc2IDI2IC04IDE3NTkgLTEwIDU4ODggLTggbDU4NTAgMyA0MiAyOCBjOTkgNjUgMTExIDIxNSAyMyAyOTAgLTE3IDE0IC00OCAzMSAtNjkgMzcgLTQ2IDEyIC0xMTY5MyAxMyAtMTE3MzUgMHoiLz4gPC9nPiA8L3N2Zz4g';
+$('#corner').src=L1;
+new Image().src=L2;
+[$('.hero .logo'),$('#corner')].forEach(i=>{i.onmouseenter=()=>i.src=L2;i.onmouseleave=()=>i.src=L1});
+$('#corner').onclick=()=>go('P02');
+/* Solo navegación entre pantallas */
+$('#lf').onsubmit=e=>{e.preventDefault();role=$('#r').value;$('#wr').textContent=role;$('#login').classList.add('hidden');$('#app').classList.remove('hidden');go('P02')};
+$('#out').onclick=()=>{$('#app').classList.add('hidden');$('#login').classList.remove('hidden')};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.id)go(b.dataset.id);else if(b.dataset.tab){tab=b.dataset.tab;go('P10')}});
+</script>
+</body>
+</html>
