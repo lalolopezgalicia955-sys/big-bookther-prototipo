@@ -69,6 +69,12 @@ th{font-size:13px;color:var(--mut);font-weight:600}
 .tabs button.on{background:var(--blue);color:#fff}
 .tot{margin-left:auto;width:260px}.tot div{display:flex;justify-content:space-between;padding:3px 0}.tot .g{border-top:2px solid var(--ink);font-weight:700;font-size:18px}
 @media(max-width:760px){#app{grid-template-columns:1fr}aside{flex-direction:row;flex-wrap:wrap}aside .brand,aside .sp{display:none}aside button{width:auto}}
+.tag.warn{background:#fde8c8;color:#7a4300}
+.tag.bad{background:#f8d7da;color:#8a1c26}
+:root[data-theme="dark"] .tag.warn{background:#4a3a1a;color:#ffd99a}
+:root[data-theme="dark"] .tag.bad{background:#4d2328;color:#ffb3ba}
+.aviso{border-left:4px solid var(--blue);background:var(--tagbg);color:var(--tagfg);padding:10px 14px;border-radius:6px;margin-bottom:16px}
+.aviso.bad{border-color:#b3261e}
 </style>
 </head>
 <body>
@@ -107,6 +113,7 @@ const $=s=>document.querySelector(s);
 const MOD=[
 ['P02','Menú principal','Accesos de tu rol',['Estudiante','Bibliotecario','Cajero','Administrador']],
 ['P03','Catálogo','Buscar libros y ver disponibilidad',['Estudiante','Bibliotecario']],
+['P12','Mis préstamos y reservas','Fechas límite, reservas y sanciones',['Estudiante']],
 ['P04','Inventario','Libros y ejemplares',['Bibliotecario']],
 ['P05','Registrar préstamo','Folio de préstamo',['Bibliotecario']],
 ['P06','Devoluciones y sanciones','Cerrar préstamos y mora',['Bibliotecario']],
@@ -132,12 +139,20 @@ const LIBROS=[
  {t:'Física universitaria',a:'Sears',s:'Ciencias',p:480,n:1}
 ];
 let bq='',bsec='Todas',bdis='Todos';
+/* ===== Mis préstamos y reservas (Estudiante) ===== */
+const HOY=new Date(2026,9,23);
+const PREST=[{f:124,t:'Mil novecientos ochenta y cuatro',lim:new Date(2026,9,26),ren:0}];
+let RES=[];
+const fmt=d=>d.toLocaleDateString('es-MX');
+const dias=d=>Math.round((d-HOY)/864e5);
+const est=d=>d<0?'<span class="tag bad">Vencido ('+(-d)+' d)</span>':d<=1?'<span class="tag warn">Vence '+(d?'mañana':'hoy')+'</span>':tag('Faltan '+d+' días',1);
+const acc=l=>role=='Bibliotecario'&&l.n>0?'<button class="btn alt sm" data-id="P05">Solicitar préstamo</button>':role=='Estudiante'&&l.n==0?(RES.includes(l.t)?tag('Reservado',1):`<button class="btn alt sm" data-res="${l.t}">Reservar</button>`):'';
 const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const catRows=()=>{
  const q=nrm(bq.trim());
  const r=LIBROS.filter(l=>(bsec=='Todas'||l.s==bsec)&&(bdis=='Todos'||l.n>0)&&(!q||nrm(l.t+' '+l.a).includes(q)));
  return `<p class="db">${r.length} resultado(s)</p>`+(r.length
-  ?tbl(['Título','Autor','Sección','Precio','Ejemplares disponibles',''],r.map(l=>[l.t,l.a,l.s,'$'+l.p.toFixed(2),tag(l.n,l.n>0),role=='Bibliotecario'&&l.n>0?'<button class="btn alt sm" data-id="P05">Solicitar préstamo</button>':'']))
+  ?tbl(['Título','Autor','Sección','Precio','Ejemplares disponibles',''],r.map(l=>[l.t,l.a,l.s,'$'+l.p.toFixed(2),tag(l.n,l.n>0),acc(l)]))
   :'<p class="sub">No se encontraron libros con esos criterios.</p>')};
 
 /* ===== Configuración: tema claro / oscuro ===== */
@@ -231,6 +246,12 @@ P09:()=>h('Sincronizar padrón','Lista oficial de alumnos que entrega la Escuela
 <div class="card"><h3>Padrón actual</h3>${tbl(['Matrícula','Nombre','Correo','Activo'],[
 ['20230145','Ana López Ruiz','ana.lopez@itsx.edu.mx',tag('Sí',1)],['20230188','Carlos Mora Díaz','carlos.mora@itsx.edu.mx',tag('Sí',1)],['20210077','Sofía Ruiz Peña','sofia.ruiz@itsx.edu.mx',tag('No')] ])}</div>`,
 
+P12:()=>h('Mis préstamos y reservas','Consulta tus fechas límite, reservas y sanciones.','Prestamo, Ejemplar, Reserva, Sancion')+
+(PREST.some(p=>dias(p.lim)<0)?'<div class="aviso bad">Tienes un préstamo vencido. Devuélvelo para evitar más sanciones.</div>':'')+`
+<div class="card"><h3>Préstamos activos (${PREST.length} de 2)</h3>${PREST.length?tbl(['Folio','Libro','Fecha límite','Estatus','Renovaciones',''],PREST.map(p=>[p.f,p.t,fmt(p.lim),est(dias(p.lim)),p.ren+' de 1',p.ren==0&&dias(p.lim)>=0?`<button class="btn alt sm" data-ren="${p.f}">Renovar 3 días</button>`:''])):'<p class="sub">No tienes préstamos activos.</p>'}</div>
+<div class="card"><h3>Mis reservas</h3>${RES.length?tbl(['Libro','Estatus',''],RES.map((t,i)=>[t,tag('En espera'),`<button class="btn alt sm" data-can="${i}">Cancelar</button>`])):'<p class="sub">No tienes reservas. Reserva desde el Catálogo los libros sin ejemplares disponibles.</p>'}</div>
+<div class="card"><h3>Sanciones</h3>${tbl(['Folio','Motivo','Monto','Estatus'],[[118,'Retraso de 4 días en la devolución','$40.00',tag('Pendiente')]])}<p class="sub">Tarifa: $10.00 por día de retraso. Se paga en la biblioteca.</p></div>`,
+
 P11:()=>h('Configuración','Preferencias de la interfaz.','Ninguna')+`
 <div class="card"><h3>Apariencia</h3><div class="row"><div class="f"><label for="tm">Tema</label><select id="tm">${TEMAS.map(x=>`<option${x==tema?' selected':''}>${x}</option>`).join('')}</select></div></div>
 <p class="sub">Automático sigue el tema de tu dispositivo. La elección se guarda en este navegador.</p></div>`,
@@ -255,7 +276,10 @@ $('#out').onclick=()=>{$('#app').classList.add('hidden');$('#login').classList.r
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.dataset.id)go(b.dataset.id);
  else if(b.dataset.tab){tab=b.dataset.tab;go('P10')}
- else if(b.dataset.act=='limpiar')go('P03')});
+ else if(b.dataset.act=='limpiar')go('P03')
+ else if(b.dataset.res){RES.push(b.dataset.res);$('#res').innerHTML=catRows()}
+ else if(b.dataset.can!==undefined){RES.splice(+b.dataset.can,1);go('P12')}
+ else if(b.dataset.ren){const p=PREST.find(x=>x.f==b.dataset.ren);if(p){p.lim=new Date(p.lim.getFullYear(),p.lim.getMonth(),p.lim.getDate()+3);p.ren++}go('P12')}});
 /* Catálogo: filtros en vivo */
 document.addEventListener('input',e=>{if(e.target.id=='q'){bq=e.target.value;$('#res').innerHTML=catRows()}});
 document.addEventListener('change',e=>{if(e.target.id=='tm'){tema=e.target.value;try{localStorage.setItem('bb_tema',tema)}catch(x){}aplicarTema()}
